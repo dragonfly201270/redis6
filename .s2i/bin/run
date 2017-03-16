@@ -1,0 +1,24 @@
+#!/bin/sh
+
+
+# export JAVA_OPTIONS="-javaagent:/opt/eap/newrelic.jar –D newrelic.environment=Development $JAVA_OPTIONS"
+
+# #move files to jboss server home
+# cp /home/jboss/source/newrelic/* /opt/eap/
+# cd /opt/eap/
+
+# echo "Running Java -jar"
+
+# #install from the provided jar file
+# java -jar newrelic.jar install -s /opt/eap/
+
+#change directory to  /etc/opt/rh/rh-php56/
+ cd /etc/opt/rh/rh-php56/
+
+# #javaagent:/opt/eap/newrelic/newrelic.jar
+# #REPLACE the line standalone.conf
+
+# echo "Replacing Content"
+sed -i 's/session.save_handler = files/session.save_handler = redis/' php.ini
+sed -i 's/session.save_path = \/tmp\/sessions/session.save_path = "tcp:\/\/172.30.39.79:6379"/' php.ini
+exec /usr/local/s2i/run
